@@ -20,7 +20,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <cutils/log.h>
+// The platform's cutils/log.h is not in the NDK; its ALOGD is used only by ___DEBUG_PERF___.
+#ifdef ___DEBUG_PERF___
+#include <android/log.h>
+#define ALOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "PinyinIME", __VA_ARGS__)
+#endif
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
