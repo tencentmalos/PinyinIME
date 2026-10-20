@@ -663,11 +663,15 @@ bool SpellingTrie::load_spl_trie(FILE *fp) {
   if (NULL == fp)
     return false;
 
-  if (fread(&spelling_size_, sizeof(uint32), 1, fp) != 1)
+  uint32 spelling_size = 0;
+  if (fread(&spelling_size, sizeof(uint32), 1, fp) != 1)
     return false;
+  spelling_size_ = spelling_size;
 
-  if (fread(&spelling_num_, sizeof(uint32), 1, fp) != 1)
+  uint32 spelling_num = 0;
+  if (fread(&spelling_num, sizeof(uint32), 1, fp) != 1)
     return false;
+  spelling_num_ = spelling_num;
 
   if (fread(&score_amplifier_, sizeof(float), 1, fp) != 1)
     return false;

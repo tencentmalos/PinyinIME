@@ -168,17 +168,14 @@ bool DictTrie::save_dict(const char *filename) {
 bool DictTrie::load_dict(FILE *fp) {
   if (NULL == fp)
     return false;
-  if (fread(&lma_node_num_le0_, sizeof(uint32), 1, fp) != 1)
+  uint32 counts[4];
+  if (fread(counts, sizeof(uint32), 4, fp) != 4)
     return false;
-
-  if (fread(&lma_node_num_ge1_, sizeof(uint32), 1, fp) != 1)
-    return false;
-
-  if (fread(&lma_idx_buf_len_, sizeof(uint32), 1, fp) != 1)
-    return false;
-
-  if (fread(&top_lmas_num_, sizeof(uint32), 1, fp) != 1 ||
-     top_lmas_num_ >= lma_idx_buf_len_)
+  lma_node_num_le0_ = counts[0];
+  lma_node_num_ge1_ = counts[1];
+  lma_idx_buf_len_ = counts[2];
+  top_lmas_num_ = counts[3];
+  if (top_lmas_num_ >= lma_idx_buf_len_)
      return false;
 
   free_resource(false);

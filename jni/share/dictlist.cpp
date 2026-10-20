@@ -414,8 +414,10 @@ bool DictList::load_list(FILE *fp) {
 
   initialized_ = false;
 
-  if (fread(&scis_num_, sizeof(uint32), 1, fp) != 1)
+  uint32 scis_num = 0;
+  if (fread(&scis_num, sizeof(uint32), 1, fp) != 1)
     return false;
+  scis_num_ = scis_num;
 
   if (fread(start_pos_, sizeof(uint32), kMaxLemmaSize + 1, fp) !=
       kMaxLemmaSize + 1)

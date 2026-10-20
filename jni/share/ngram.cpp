@@ -183,8 +183,10 @@ bool NGram::load_ngram(FILE *fp) {
 
   initialized_ = false;
 
-  if (fread(&idx_num_, sizeof(uint32), 1, fp) != 1 )
+  uint32 idx_num = 0;
+  if (fread(&idx_num, sizeof(uint32), 1, fp) != 1 )
     return false;
+  idx_num_ = idx_num;
 
   if (NULL != lma_freq_idx_)
     free(lma_freq_idx_);
