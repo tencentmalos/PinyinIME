@@ -1438,7 +1438,12 @@ size_t MatrixSearch::extend_dmi(DictExtPara *dep, DictMatchInfo *dmi_s) {
     lpi_total_ = lpi_num;
 
   if (NULL == dmi_s) {  // from root
-    assert(0 != handles[0]);
+    // Long ambiguous input may exhaust DictTrie's bounded milestone pool.
+    // No handle means no extension; do not publish candidates without a DMI.
+    if (0 == handles[0]) {
+      lpi_total_ = 0;
+      return 0;
+    }
     mtrx_dmi_fr = dmi_pool_used_;
   }
 
